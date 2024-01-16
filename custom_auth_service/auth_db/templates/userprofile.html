@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Mon Profil Utilisateur</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <link rel="stylesheet" href="{% static 'AccountsApp/css/index.css' %}">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <ul>
+    <li><a href="{% url 'home' %}">Accueil</a></li>
+    <li><a href="{% url 'change_password' %}">Modifier le Mot de Passe</a></li>
+    <li class="active"><a href="{% url 'view_profile' %}">Mon Profil</a></li>
+    <!-- Ajoutez d'autres liens de navigation ici -->
+</ul>
+
+<!-- Affichage du profil utilisateur -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2>Mon Profil Utilisateur</h2>
+      <table class="table mt-4">
+        <tbody>
+          <tr>
+            <th scope="row">Prénom</th>
+            <td>{{ contact.first_name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Nom de famille</th>
+            <td>{{ contact.last_name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">E-mail</th>
+            <td>{{ contact.email }}</td>
+          </tr>
+           <tr>
+            <th scope="row">Téléphone</th>
+            <td>{{ contact.telephone }}</td>
+          </tr>
+          <!-- Ajoutez d'autres champs du profil ici -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

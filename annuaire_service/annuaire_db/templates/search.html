@@ -1,0 +1,80 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Recherche de Contacts</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <link rel="stylesheet" href="{% static 'ContactsApp/css/index.css' %}">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <ul>
+    <li><a href="{% url 'home' %}">Accueil</a></li>
+    <li><a href="{% url 'add_contact' %}">Ajouter un contact</a></li>
+    <li class="active"><a href="{% url 'search_contact' %}">Rechercher un contact</a></li>
+    <li><a href="{% url 'promove_contact' %}">Promouvoir le contact</a></li>
+    <li><a href="{% url 'retrograde_contact' %}">Rétrograder le contact</a></li>
+</ul>
+
+<!-- Formulaire de recherche -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <form method="get" action="{% url 'search_results' %}" class="mt-4">
+        <div class="input-group">
+          <input type="text" name="query" class="form-control" placeholder="Entrez le nom ou l'e-mail du contact">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Résultats de la recherche -->
+<div class="container mt-4">
+  <h2>Résultats de la recherche</h2>
+  <div class="table-responsive">
+    <table class="table table-hover table-dark table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nom</th>
+          <th scope="col">Numéro de téléphone</th>
+          <th scope="col">E-mail</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in search_results %}
+        <tr style="cursor: pointer;">
+          <td>{{ result.first_name }} {{ result.last_name }}</td>
+          <td>{{ result.phone_number }}</td>
+          <td>{{ result.email }}</td>
+          <td>
+            <a href="{% url 'contact' result.id %}" class="btn btn-primary btn-sm">Voir</a>
+            <a href="{% url 'update_contact' result.id %}" class="btn btn-primary btn-sm">Mettre à jour</a>
+            <a href="{% url 'delete_contact' result.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4">Aucun résultat trouvé.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ... -->
+
+</body>
+</html>

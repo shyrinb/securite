@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Mise à jour du Contact</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <link rel="stylesheet" href="{% static 'ContactsApp/css/index.css' %}">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <ul>
+    <li><a href="{% url 'home' %}">Accueil</a></li>
+    <li><a href="{% url 'add_contact' %}">Ajouter un contact</a></li>
+    <li><a href="{% url 'search_contact' %}">Rechercher un contact</a></li>
+    <li><a href="{% url 'promove_contact' %}">Promouvoir le contact</a></li>
+    <li><a href="{% url 'retrograde_contact' %}">Rétrograder le contact</a></li>
+</ul>
+
+<!-- Formulaire de mise à jour -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2>Mise à jour du contact</h2>
+      <form method="post" action="{% url 'update_contact' contact.id %}" class="mt-4">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="first_name">Prénom:</label>
+          <input type="text" name="first_name" value="{{ contact.first_name }}" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="last_name">Nom:</label>
+          <input type="text" name="last_name" value="{{ contact.last_name }}" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="phone_number">Numéro de téléphone:</label>
+          <input type="text" name="phone_number" value="{{ contact.phone_number }}" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input type="email" name="email" value="{{ contact.email }}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

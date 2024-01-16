@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Supprimer Mon Compte</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <link rel="stylesheet" href="{% static 'AccountsApp/css/index.css' %}">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <ul>
+    <li><a href="{% url 'home' %}">Accueil</a></li>
+    <li><a href="{% url 'change_password' %}">Modifier le Mot de Passe</a></li>
+    <li><a href="{% url 'view_profile' %}">Mon Profil</a></li>
+    <li class="active"><a href="{% url 'delete_account' %}">Supprimer Mon Compte</a></li>
+    <!-- Ajoutez d'autres liens de navigation ici -->
+</ul>
+
+<!-- Formulaire de suppression du compte -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2>Supprimer Mon Compte</h2>
+      <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
+      <form method="post" action="{% url 'delete_account' %}" class="mt-4">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmer la Suppression du Compte</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

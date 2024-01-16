@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}
+Supprimer le contact
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Supprimer le contact</h2>
+    <p>Êtes-vous sûr de vouloir supprimer ce contact?</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Supprimer</button>
+        <a href="{% url 'home' %}" class="btn btn-primary">Retour à l'accueil</a>
+    </form>
+</div>
+{% endblock %}

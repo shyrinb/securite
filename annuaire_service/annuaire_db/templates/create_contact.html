@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}
+Détails du Contact
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Détails du Contact</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <p><strong>Prénom:</strong> {{ contact.first_name }}</p>
+            <p><strong>Nom:</strong> {{ contact.last_name }}</p>
+            <p><strong>Numéro de téléphone:</strong> {{ contact.phone_number }}</p>
+            <p><strong>Email:</strong> {{ contact.email }}</p>
+
+            <!-- Ajoutez ici le code pour afficher d'autres détails du contact si nécessaire -->
+
+            <a href="{% url 'home' %}" class="btn btn-primary mt-3">Retour à la page d'accueil</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Promouvoir l'utilisateur</title>
+</head>
+<body>
+    <h1>Promouvoir l'utilisateur</h1>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <p>Êtes-vous sûr de vouloir promouvoir cet utilisateur en Admin?</p>
+    <form method="post" action="{% url 'promote_user' user.id %}">
+        {% csrf_token %}
+        <button type="submit">Promouvoir</button>
+        <a href="{% url 'home' %}">Annuler</a>
+    </form>
+</body>
+</html>
