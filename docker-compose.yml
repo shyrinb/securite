@@ -1,0 +1,35 @@
+version: '3'
+services:
+  auth_service:
+    build:
+      context: securite_projet/auth_service/auth_service
+    ports:
+      - "8000:8000"
+    depends_on:
+      - auth_db
+    volumes:
+      - ./securite_projet/auth_service/auth_db/templates:/app/auth_db/templates
+      - ./securite_projet/auth_service/auth_db/static:/app/auth_db/static
+
+  annuaire_service:
+    build:
+      context: securite_projet/annuaire_service/annuaire_service
+    ports:
+      - "8001:8001"
+    depends_on:
+      - annuaire_db
+    volumes:
+      - ./securite_projet/annuaire_service/annuaire_db/templates:/app/annuaire_db/templates
+      - ./securite_projet/annuaire_service/annuaire_db/static:/app/annuaire_db/static
+
+  auth_db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: shyrin12
+      MYSQL_DATABASE: auth_db
+
+  annuaire_db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: shyrin12
+      MYSQL_DATABASE: annuaire_db
