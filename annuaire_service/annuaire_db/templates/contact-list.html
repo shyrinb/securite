@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Contacts</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <link rel="stylesheet" href="{% static 'ContactsApp/css/index.css' %}">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+{% block content %}
+<ul>
+    {% if status_data %}
+        <p>Statut : {{ status_data.status }}</p>
+    {% endif %}
+    <li><a href="{% url 'user_auth:logout' %}">Deconnexion</a></li>
+    <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
+  
+</ul>
+<div class="container">
+    <h2>Liste des utilisateurs</h2>
+    
+            {% for contact in contacts %}
+            <table class="table table-hover table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Numéro de téléphone</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="cursor: pointer;">
+                        <td>{{ contact.id }} </td>
+                        <td>{{ contact.first_name }} {{ contact.last_name }}</td>
+                        <td>{{ contact.phone_number }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>{{ user_status.status }}</td>
+                        <td> 
+                            <a href="{% url 'user_auth:contact_detail' contact.id %}" class="btn btn-primary btn-sm">Voir</a>         
+                            {% if user_status.status == 1 %}
+                             <a href="{% url 'annuaire_user:update_contact' contact.id %}" class="btn btn-primary btn-sm">Mettre à jour</a>
+                            <a href="{% url 'annuaire_user:delete_contact' contact.id %}" class="btn btn-danger btn-sm">Supprimer</a> 
+                            {%endif%}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+              {%endfor%}
+</div>
+{% endblock %}

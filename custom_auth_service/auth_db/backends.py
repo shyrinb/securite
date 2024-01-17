@@ -27,7 +27,7 @@ class UtilisateurAPIBackend(ModelBackend):
             request.session['access_token'] = access_token
             user.backend = 'custom_auth_service.auth_db.backends.UtilisateurAPIBackend'
             # Mettez à jour l'utilisateur dans la session
-            request.session['_auth_user_id'] = user.id
+            request.session['user_id'] = user.id
             print("request user", request.user)
             return user
 

@@ -15,10 +15,10 @@
 </head>
 <body>
   <ul>
-    <li><a href="{% url 'home' %}">Accueil</a></li>
-    <li><a href="{% url 'change_password' %}">Modifier le Mot de Passe</a></li>
-    <li><a href="{% url 'view_profile' %}">Mon Profil</a></li>
-    <li class="active"><a href="{% url 'delete_account' %}">Supprimer Mon Compte</a></li>
+    <li><a href="{% url 'user_auth:logout' %}">Deconnexion</a></li>
+    <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
+    <li><a href="{% url 'user_auth:change_password' contact_id %}">Modifier le Mot de Passe</a></li>
+    <li><a href="{% url 'user_auth:contact_detail' contact_id %}">Retour</a></li>
     <!-- Ajoutez d'autres liens de navigation ici -->
 </ul>
 
@@ -26,9 +26,9 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6 offset-md-3">
-      <h2>Supprimer Mon Compte</h2>
-      <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
-      <form method="post" action="{% url 'delete_account' %}" class="mt-4">
+      <h2>Supprimer Le Compte</h2>
+      <p>Êtes-vous sûr de vouloir supprimer le compte de {{user_to_delete.first_name}} ? Cette action est irréversible.</p>
+      <form method="post" action="{% url 'user_auth:desinscrire' contact_id %}" class="mt-4">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Confirmer la Suppression du Compte</button>
       </form>

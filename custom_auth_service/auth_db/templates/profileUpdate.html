@@ -7,16 +7,21 @@
     <title>Update Profile</title>
 </head>
 <body>
-    <h1>Update Profile</h1>
+    
+<nav> 
+    <ul>
+        <li><a href="{% url 'user_auth:logout' %}">Deconnexion</a></li>
+        <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
+        <li class="active"><a href="{% url 'user_auth:change_password' contact_id %}">Modifier le Mot de Passe</a></li>
+    </ul>
+</nav>      
+
+    <h1>Mise à jour du Profil</h1>
 
     <form method="post">
         {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ account_form.as_p }}
-        <button type="submit">Update Profile</button>
+        {{ combined_form.as_p }}
+        <button type="submit">Mettre à jour Profil</button>
     </form>
-
-    <p><a href="{% url 'change_password' %}">Change Password</a></p>
-    <p><a href="{% url 'home' %}">Back to Home</a></p>
 </body>
 </html>

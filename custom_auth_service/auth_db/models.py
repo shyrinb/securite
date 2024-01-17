@@ -23,15 +23,13 @@ class User(AbstractUser):
         default = Status.utilisateur,
     )
     
-    def is_authenticated(self):
-        return True 
-    
     def __str__(self):
-        return f'{self.id} - {self.username}'
+        return f'{self.id}'
 
     class Meta:
         db_table = 'auth_db_user'
         app_label = 'auth_db'
+        
 
 class Historique(models.Model):
     ACTION_CHOICES = [
@@ -42,5 +40,6 @@ class Historique(models.Model):
         ('deconnexion', 'Déconnexion'),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    commentaire = models.CharField(max_length=50, blank=True)
     action= models.CharField(max_length=50, choices=ACTION_CHOICES, blank=True)
     timestamp = models.DateTimeField(auto_now=True)

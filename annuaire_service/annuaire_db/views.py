@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from custom_auth_service.auth_db.models import User
+from custom_auth_service.auth_db.views import status_user
 from .models import Contact
 
 import io
@@ -11,17 +12,6 @@ from django.contrib import messages
 from .forms import ContactForm
 from django.db.models import Count, Q  # Ajout de Q pour les requêtes complexes
 
-
-def contact_detail(request, contact_id):
-    contact = get_object_or_404(Contact, id=contact_id)
-    data = {
-        'id': contact.id,
-        'first_name': contact.first_name,
-        'last_name': contact.last_name,
-        'phone_number': contact.phone_number,
-        'email': contact.email
-    }
-    return JsonResponse(data)
 
 def add_contact(request):
     user_account = request.user.contact  # Remplacer 'profile' par 'account'
@@ -46,11 +36,12 @@ def home(request):
     print("fonction home")
     if 'access_token' in request.session:
         print("Bienvenue sur la page d'accueil ")
-        user_id = request.session.get('_auth_user_id')
+        user_id = request.session.get('user_id')
         print("user id",user_id)
+        user_status_data = status_user(request) 
         if user_id:
             contacts = Contact.objects.using('annuaire_db').filter(user=user_id)
-            context = {'contacts': contacts}
+            context = {'contacts': contacts, 'user_status': user_status_data}
             print("retour",context)
             return render(request, 'index.html', context)
         else:
@@ -96,9 +87,16 @@ def promove_contact(request, user_id):
 
 def contact(request):
     contacts = Contact.objects.all()
+    if 'access_token' in request.session:
+       # user_id = request.session.get('user_id')
+        user_status_data = status_user(request)  # Appelez la fonction status_user avec l'objet request
 
-    context = {'contacts': contacts}
-    return render(request, 'contact_list.html', context)
+        context = {'contacts': contacts, 'user_status': user_status_data}
+        print("context de contact list", context)
+        return render(request, 'contact-list.html', context)
+    else:
+        # Gérez le cas où l'utilisateur n'est pas connecté
+        return render(request, 'contact-list.html', {'contacts': contacts, 'user_status': None})
 
 def search_contact(request):
     search_query = request.GET.get('q', '')

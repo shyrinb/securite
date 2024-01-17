@@ -103,8 +103,53 @@ class LoginForm(forms.Form):
                 user.backend = 'custom_auth_service.auth_db.backends.UtilisateurAPIBackend'
                 login(request, user)
                 print("User logged in successfully.")
+                # Créez ou récupérez l'objet Historique associé à l'utilisateur
+                historique = Historique.objects.using('auth_db').create(
+                    user=user,
+                    action="connexion",
+                    timestamp=timezone.now()
+                )
+                print("historique enregistre")
+                historique.save(using='auth_db')
                 print("user",user)
                 return user
             
         print('Échec de l\'authentification.')
         raise forms.ValidationError('Invalid username or password. Please try again.')
+
+class UserContactEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+    # Additional fields from Contact model
+    phone_number = forms.CharField(max_length=10, required=False)
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        historique = Historique.objects.using('auth_db').create(
+            user=user,
+            action="mise_a_jour",
+            commentaire="contact",
+            timestamp=timezone.now()
+        )
+        
+        print("historique mis à jour")
+        historique.save(using='auth_db')
+        if commit:
+                user.save()
+        # Update associated Contact
+        contact = user.contact.first()
+        contact.first_name = user.first_name
+        contact.last_name = user.last_name
+        contact.email = user.email
+        contact.phone_number = self.cleaned_data['phone_number']
+        contact.save()
+
+        print("contact mis à jour")
+
+        if commit:
+            user.save(using='auth_db')
+            print("user mise à jour")
+
+        return user

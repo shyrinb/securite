@@ -3,10 +3,9 @@
 import os
 import sys
 
-
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 def main():
-    """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'securite_projet.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'auth_service.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

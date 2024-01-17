@@ -18,7 +18,6 @@ from annuaire_service.annuaire_db import views
 app_name = 'annuaire_user'
 
 urlpatterns = [
-    path('contact-detail/<int:contact_id>/', views.contact_detail,  name='contact_detail'),
     path('home/', views.home, name='home'),
     path('search-contact/', views.search_contact, name='search_contact'),
     # Ajout contact 
@@ -29,5 +28,5 @@ urlpatterns = [
     # Retrograder utilisateur   
     path('retrograde-contact/<int:contact_id>/', views.retrograde_contact, name='retrograde_contact'),  
     path('delete-contact/<int:contact_id>/', views.delete_contact, name='delete_contact'),
-    path('accounts/', views.contact, name='account-list') # voir tous les utilisateurs
+    path('accounts/', views.contact, name='account_list') # voir tous les utilisateurs
 ]
