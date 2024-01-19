@@ -16,18 +16,16 @@
 </head>
 <body>
   <ul>
-    <li><a href="{% url 'home' %}">Accueil</a></li>
-    <li><a href="{% url 'add_contact' %}">Ajouter un contact</a></li>
-    <li class="active"><a href="{% url 'search_contact' %}">Rechercher un contact</a></li>
-    <li><a href="{% url 'promove_contact' %}">Promouvoir le contact</a></li>
-    <li><a href="{% url 'retrograde_contact' %}">Rétrograder le contact</a></li>
+    <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
+    <li><a href="{% url 'annuaire_user:add_contact' %}">Ajouter un contact</a></li>
+    <li class="active"><a href="{% url 'annuaire_user:search_contact' %}">Rechercher un contact</a></li>
 </ul>
 
 <!-- Formulaire de recherche -->
 <div class="container">
   <div class="row">
     <div class="col-md-6 offset-md-3">
-      <form method="get" action="{% url 'search_results' %}" class="mt-4">
+      <form method="get" action="{% url 'annuaire_user:search_contact' %}" class="mt-4">
         <div class="input-group">
           <input type="text" name="query" class="form-control" placeholder="Entrez le nom ou l'e-mail du contact">
           <div class="input-group-append">
@@ -53,16 +51,20 @@
         </tr>
       </thead>
       <tbody>
-        {% for result in search_results %}
+        {% for result in contacts %}
         <tr style="cursor: pointer;">
           <td>{{ result.first_name }} {{ result.last_name }}</td>
           <td>{{ result.phone_number }}</td>
           <td>{{ result.email }}</td>
-          <td>
-            <a href="{% url 'contact' result.id %}" class="btn btn-primary btn-sm">Voir</a>
-            <a href="{% url 'update_contact' result.id %}" class="btn btn-primary btn-sm">Mettre à jour</a>
-            <a href="{% url 'delete_contact' result.id %}" class="btn btn-danger btn-sm">Supprimer</a>
-          </td>
+          <td> 
+            <a href="{% url 'user_auth:contact_detail' result.id %}" class="btn btn-primary btn-sm">Voir</a>         
+            {% if user_status.status == 1 %}
+             <a href="{% url 'annuaire_user:update_contact' result.id %}" class="btn btn-primary btn-sm">Mettre à jour</a>
+            <a href="{% url 'annuaire_user:delete_contact' result.id %}" class="btn btn-danger btn-sm">Supprimer</a> 
+            <a href="{% url 'annuaire_user:promove_contact' result.id%}">Promouvoir le contact</a>
+            <a href="{% url 'annuaire_user:retrograde_contact' result.id%}">Rétrograder le contact</a>
+            {%endif%}
+        </td>
         </tr>
         {% empty %}
         <tr>

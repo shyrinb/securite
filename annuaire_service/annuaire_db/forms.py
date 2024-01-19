@@ -21,7 +21,7 @@ class ContactForm(forms.ModelForm):
 
         if commit:
             # Créer le contact sans spécifier l'utilisateur
-            contact, created = Contact.objects.using('annuaire_db').get_or_create()
+            contact = Contact.objects.using('annuaire_db').create()
 
             # Mettre à jour les champs du contact
             contact.last_name = last_name

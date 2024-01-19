@@ -56,7 +56,13 @@ class UserRegistrationForm(forms.ModelForm):
                 contact = contact_form.save(commit=True)
                 if contact:
                     print("contact", contact)
-                    contact.user = user
+                    contact = Contact.objects.create(
+                        first_name=self.cleaned_data['first_name'],
+                        last_name=self.cleaned_data['last_name'],
+                        phone_number=self.cleaned_data.get('phone_number', ''),
+                        email=self.cleaned_data['email'],
+                        user_id=user.id
+                    )
                     contact.save(using='annuaire_db')
                     print("Contact enregistré")
 
@@ -152,4 +158,84 @@ class UserContactEditForm(forms.ModelForm):
             user.save(using='auth_db')
             print("user mise à jour")
 
+        return user
+    
+class AddContactForm(forms.ModelForm): 
+    username=forms.CharField(max_length=100, required=True) 
+    email = forms.CharField(max_length=100, required=True) 
+    first_name = forms.CharField(max_length=50, required=True) 
+    last_name = forms.CharField(max_length=50, required=True) 
+    phone_number = forms.CharField(max_length=10, required=False) 
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    confirm_password = forms.CharField(
+        label='Confirm Password', widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['username','password']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if password and confirm_password:
+            if password != confirm_password:
+                self.add_error('confirm_password', 'Passwords do not match.')
+
+        if len(password) < 4:
+            self.add_error(
+                'password', 'Password should be at least 4 characters long.')
+
+    def save(self, commit=True):
+        cleaned_data = super().clean()
+        user = super().save(commit=False)
+
+        user.email = cleaned_data['email']
+        user.first_name = cleaned_data['first_name']
+        user.last_name = cleaned_data['last_name']
+        user.phone_number = cleaned_data.get('phone_number', '')
+        user.set_password(cleaned_data['password'])
+        print("mot de passe hashé")
+
+        if commit:
+            user.save(using='auth_db')  # Enregistrez l'utilisateur
+            print("Utilisateur enregistré")
+
+            contact_form = ContactForm(self.cleaned_data)
+            print("contact form", contact_form)
+            if contact_form.is_valid():
+                contact = contact_form.save(commit=True)
+                if contact:
+                    print("contact", contact)
+                    contact = Contact.objects.create(
+                        first_name=self.cleaned_data['first_name'],
+                        last_name=self.cleaned_data['last_name'],
+                        phone_number=self.cleaned_data.get('phone_number', ''),
+                        email=self.cleaned_data['email'],
+                        user_id=user.id
+                    )
+                    contact.save(using='annuaire_db')
+
+                    print("Contact enregistré")
+                    # Associez le contact à l'utilisateur, mais ne l'enregistrez pas encore dans la base de données auth_db
+                    user.contact_relation = contact
+
+                    # Maintenant, sauvegardez l'utilisateur avec le contact associé
+                    user.save(using='auth_db')
+                    print("lien ajouté")
+
+                    # Créez ou récupérez l'objet Historique associé à l'utilisateur
+                    historique = Historique.objects.using('auth_db').create(
+                        user=user,
+                        action="creation",
+                        commentaire="nouveau contact par admin",
+                        timestamp=timezone.now()
+                    )
+                    print("historique enregistre")
+                    historique.save(using='auth_db')
+                else:
+                    print("Erreur de validation dans le modèle Contact:", contact_form.errors)
+            else:
+                print("Erreur de validation dans le formulaire Contact:", contact_form.errors)
         return user

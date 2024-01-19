@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
+from custom_auth_service.auth_db.forms import AddContactForm
 from custom_auth_service.auth_db.models import User
 from custom_auth_service.auth_db.views import status_user
 from .models import Contact
@@ -14,23 +15,19 @@ from django.db.models import Count, Q  # Ajout de Q pour les requêtes complexes
 
 
 def add_contact(request):
-    user_account = request.user.contact  # Remplacer 'profile' par 'account'
-    form = ContactForm(request.POST or None)
-    if request.method == 'POST':
-        form = ContactForm(request.POST, request.FILES)
-        if form.is_valid():
-            contact = form.save(commit=False)
-            contact.account = request.user.account  # Remplacer 'profile' par 'account'
-            contact.save()
-            messages.success(request, 'Contact has been added successfully.')
-            return redirect('home')
+   if 'access_token' in request.session:
+        form = AddContactForm(request.POST or None)
+    
+        if request.method == 'POST':
+            form = AddContactForm(request.POST)
+            if form.is_valid():
+                print("form est valide ")
+                form.save()
+                print("inscription effectuée")
         else:
-            form.add_error(None, 'Fill fields correctly!')
-    context = {
-        'form': form,
-        'account': user_account,  # Remplacer 'profile' par 'account'
-    }
-    return render(request, 'create_contact.html', context)
+            messages.error(request, 'Fill the form correctly!')
+       
+        return render(request, 'create_contact.html', {'form': form})
 
 def home(request):
     print("fonction home")
@@ -98,30 +95,33 @@ def contact(request):
         # Gérez le cas où l'utilisateur n'est pas connecté
         return render(request, 'contact-list.html', {'contacts': contacts, 'user_status': None})
 
+def go_to_search(request):
+    return render(request, 'search.html')
+    
 def search_contact(request):
-    search_query = request.GET.get('q', '')
-    user = request.user.contact
+    if 'access_token' in request.session:
+        search_query = request.GET.get('query', '')
+        user_id = request.session.get('user_id')
+        contacts = Contact.objects.filter(user_id=user_id)
 
-    contacts = Contact.objects.filter(contact=user)
+        if search_query:
+            contacts = contacts.filter(
+                first_name__startswith=search_query) | contacts.filter(
+                last_name__startswith=search_query) | contacts.filter(
+                phone_number__startswith=search_query) | contacts.filter(
+                email__startswith=search_query)
 
-    if search_query:
-        contacts = contacts.filter(
-            first_name__startswith=search_query) | contacts.filter(
-            last_name__startswith=search_query) | contacts.filter(
-            phone_number__startswith=search_query) | contacts.filter(
-            email__startswith=search_query)
-
-    serialized_contacts = []
-    for contact in contacts:
-        serialized_contacts.append({
-            'id': contact.id,
-            'first_name': contact.first_name,
-            'last_name': contact.last_name,
-            'phone_number': contact.phone_number,
-            'email': contact.email
-        })
-
-    return JsonResponse({'contacts': serialized_contacts})
+        serialized_contacts = []
+        for contact in contacts:
+            serialized_contacts.append({
+                'id': contact.id,
+                'first_name': contact.first_name,
+                'last_name': contact.last_name,
+                'phone_number': contact.phone_number,
+                'email': contact.email
+            })
+        print("reponse:",serialized_contacts)
+        return render(request, 'search.html',{'contacts': serialized_contacts})
 
 def update_contact(request, contact_id):
     contact = get_object_or_404(Contact, id=contact_id)

@@ -18,9 +18,11 @@
     {% for contact in contacts %}
 
     <li><a href="{% url 'user_auth:logout' %}">Deconnexion</a></li>
-    <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
-    
     <li><a href="{% url 'user_auth:contact_detail' contact.id %}">Mon profil</a></li>
+    <nav> 
+      <li><a href="{% url 'annuaire_user:add_contact' %}"> Ajouter contact </a></li>
+      <li><a href="{% url 'annuaire_user:go_to_search' %}">Rechercher contact</a></li>
+    </nav>
     {%endfor%}
 </ul>
  <!-- Liste des contacts -->

@@ -20,6 +20,8 @@ app_name = 'annuaire_user'
 urlpatterns = [
     path('home/', views.home, name='home'),
     path('search-contact/', views.search_contact, name='search_contact'),
+
+    path('go-contact/', views.go_to_search, name='go_to_search'),
     # Ajout contact 
     path('add-contact', views.add_contact, name='add_contact'),
     # Proumouvoir utilisateur

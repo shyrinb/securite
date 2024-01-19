@@ -60,7 +60,6 @@ def user_logout(request):
 
 def contact_detail(request, contact_id):
     if 'access_token' in request.session:
-        user_id = request.session.get('user_id')
         contact = get_object_or_404(Contact, id=contact_id)
         data = {
             'id': contact.id,
