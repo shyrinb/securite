@@ -108,5 +108,5 @@ form h2 {
 /* Style pour déplacer le bouton en dessous du titre */
 form button {
     position: relative;
-    top: 20px; /* Ajustez la valeur en fonction de l'espace souhaité */
+    left: 10px;
 }

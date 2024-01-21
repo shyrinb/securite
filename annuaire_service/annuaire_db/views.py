@@ -37,7 +37,7 @@ def home(request):
         print("user id",user_id)
         user_status_data = status_user(request) 
         if user_id:
-            contacts = Contact.objects.using('annuaire_db').filter(user=user_id)
+            contacts = Contact.objects.using('annuaire_db').filter(user_id=user_id)
             context = {'contacts': contacts, 'user_status': user_status_data}
             print("retour",context)
             return render(request, 'index.html', context)

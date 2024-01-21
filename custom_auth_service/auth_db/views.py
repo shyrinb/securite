@@ -67,7 +67,7 @@ def contact_detail(request, contact_id):
             'last_name': contact.last_name,
             'phone_number': contact.phone_number,
             'email': contact.email,
-            "id_user":contact.user.id
+            "id_user":contact.user_id
         }
         print(data)
         return render(request, 'contact.html',{'data': data})
