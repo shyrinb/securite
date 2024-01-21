@@ -1,0 +1,113 @@
+/* Reset des styles par défaut du navigateur */
+h1, h2, h3, p, ul, li, table {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: lightgrey; /* Fond gris clair */
+    color: #000; /* Texte noir */
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: #333; /* Fond gris foncé pour la barre de navigation */
+    color: #fff; /* Texte blanc pour la barre de navigation */
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.container {
+    margin: 20px;
+}
+
+/* Bouton de déconnexion */
+.btn-logout {
+    background-color: #d9534f; /* Rouge pour le bouton de déconnexion */
+    color: #fff; /* Texte blanc pour le bouton de déconnexion */
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Formulaire */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Champs de formulaire */
+form input,
+form button {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Bouton du formulaire */
+form button {
+    background-color: darkgrey; /* Bleu pour le bouton du formulaire */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Au survol du bouton du formulaire */
+form button:hover {
+    background-color: grey; /* Bleu plus foncé au survol */
+}
+
+/* Tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: #fff;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Style pour centrer le titre */
+form h2 {
+    text-align: center;
+}
+
+/* Style pour déplacer le bouton en dessous du titre */
+form button {
+    position: relative;
+    top: 20px; /* Ajustez la valeur en fonction de l'espace souhaité */
+}

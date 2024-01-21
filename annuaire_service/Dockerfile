@@ -15,4 +15,4 @@ EXPOSE 8001
 # Define environment variable
 ENV NAME annuaire_service
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8001/annuaire"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8001"]

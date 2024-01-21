@@ -5,21 +5,29 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Mise à jour du Contact</title>
+ <title>Contacts</title>
+
+ <link rel="stylesheet" href="{% static 'annuaire_service/css/styles.css' %}">
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
- <link rel="stylesheet" href="{% static 'ContactsApp/css/index.css' %}">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
   <ul>
-    <li><a href="{% url 'home' %}">Accueil</a></li>
-    <li><a href="{% url 'add_contact' %}">Ajouter un contact</a></li>
-    <li><a href="{% url 'search_contact' %}">Rechercher un contact</a></li>
-    <li><a href="{% url 'promove_contact' %}">Promouvoir le contact</a></li>
-    <li><a href="{% url 'retrograde_contact' %}">Rétrograder le contact</a></li>
+    <nav>   
+        {% for contact in contacts %}
+
+          <li><a href="{% url 'user_auth:logout' %}">Deconnexion</a></li>
+          <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
+  
+          <li><a href="{% url 'user_auth:contact_detail' contact.id %}">Mon profil</a></li>
+        <li><a href="{% url 'annuaire_user:go_to_search' %}">Rechercher contact</a></li>
+        {%endfor%}
+    
+      </nav>
 </ul>
 
 <!-- Formulaire de mise à jour -->

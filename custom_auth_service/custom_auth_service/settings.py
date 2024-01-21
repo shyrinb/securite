@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from .routers import AuthRouter
-from annuaire_root import *
 from pathlib import Path
 # auth_service/settings.py
 DATABASE_ROUTERS = ['custom_auth_service.routers.AuthRouter']

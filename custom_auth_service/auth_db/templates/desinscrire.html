@@ -5,29 +5,32 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Supprimer Mon Compte</title>
+ <title>Contacts</title>
+
+ <link rel="stylesheet" href="{% static 'auth_service/css/styles.css' %}">
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
- <link rel="stylesheet" href="{% static 'AccountsApp/css/index.css' %}">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <ul>
+<ul>
+  <nav>   
     <li><a href="{% url 'user_auth:logout' %}">Deconnexion</a></li>
     <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
-    <li><a href="{% url 'user_auth:change_password' contact_id %}">Modifier le Mot de Passe</a></li>
-    <li><a href="{% url 'user_auth:contact_detail' contact_id %}">Retour</a></li>
-    <!-- Ajoutez d'autres liens de navigation ici -->
+  <li><a href="{% url 'annuaire_user:go_to_search' %}">Rechercher contact</a></li>
+  <li><a href="{% url 'user_auth:change_password' contact_id  %}">Modifier le Mot de Passe</a></li>
+  <li><a href="{% url 'user_auth:contact_detail' contact_id %}">Retour</a></li>
+</nav>
 </ul>
-
 <!-- Formulaire de suppression du compte -->
 <div class="container">
   <div class="row">
     <div class="col-md-6 offset-md-3">
       <h2>Supprimer Le Compte</h2>
-      <p>Êtes-vous sûr de vouloir supprimer le compte de {{user_to_delete.first_name}} ? Cette action est irréversible.</p>
+      <p>Êtes-vous sûr de vouloir supprimer le compte de {{user_to_delete.first_name}} ? </p>
+        <p> Cette action est irréversible.</p>
       <form method="post" action="{% url 'user_auth:desinscrire' contact_id %}" class="mt-4">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Confirmer la Suppression du Compte</button>

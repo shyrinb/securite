@@ -1,11 +1,26 @@
-{% extends 'base.html' %}
-{% load bootstrap4 %}
+{% load static %}
 
-{% block title %}
-Supprimer le contact
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Contacts</title>
 
-{% block content %}
+ <link rel="stylesheet" href="{% static 'annuaire_service/css/styles.css' %}">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<ul>
+    <nav>   
+        <li><a href="{% url 'user_auth:logout' %}">Deconnexion</a></li>
+        <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
+      <li><a href="{% url 'annuaire_user:go_to_search' %}">Rechercher contact</a></li>
+    </nav>
+</ul>
 <div class="container">
     <h2>Supprimer le contact</h2>
     <p>Êtes-vous sûr de vouloir supprimer ce contact?</p>
@@ -16,4 +31,3 @@ Supprimer le contact
         <a href="{% url 'home' %}" class="btn btn-primary">Retour à l'accueil</a>
     </form>
 </div>
-{% endblock %}

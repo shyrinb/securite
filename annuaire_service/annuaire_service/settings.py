@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from .routers import AnnuaireRouter
-from annuaire_root import *
-
 # annuaire_service/settings.py
 DATABASE_ROUTERS = ['annuaire_service.routers.AnnuaireRouter']
 

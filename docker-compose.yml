@@ -1,19 +1,21 @@
 version: '3'
 services:
-  auth_service:
+  custom_auth_service:
     build:
-      context: securite_projet/auth_service/auth_service
+      context: ./custom_auth_service
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
-      - "8000:8000"
+      - "8002:8002"
     depends_on:
       - auth_db
     volumes:
-      - ./securite_projet/auth_service/auth_db/templates:/app/auth_db/templates
-      - ./securite_projet/auth_service/auth_db/static:/app/auth_db/static
+      - ./securite_projet/custom_auth_service/auth_db/templates:/app/auth_db/templates
+      - ./securite_projet/custom_auth_service/auth_db/static:/app/auth_db/static
 
   annuaire_service:
     build:
-      context: securite_projet/annuaire_service/annuaire_service
+      context: ./annuaire_service
+    command: python manage.py runserver 0.0.0.0:8001
     ports:
       - "8001:8001"
     depends_on:
@@ -33,3 +35,13 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: shyrin12
       MYSQL_DATABASE: annuaire_db
+  
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - custom_auth_service
+      - annuaire_service

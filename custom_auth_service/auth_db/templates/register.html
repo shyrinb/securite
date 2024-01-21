@@ -1,12 +1,17 @@
 <!-- auth_service/templates/register.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>ANNUAIRE</title>
+
+    <link rel="stylesheet" href="{% static 'auth_service/css/styles.css' %}">
 </head>
 <body>
+    <H1>ANNUAIRE</H1>
+
     <h1>Register</h1>
 
     <form method="post">
@@ -15,6 +20,6 @@
         <button type="submit">Inscription</button>
     </form>
 
-    <p>Already have an account? <a href="{% url 'auth_login' %}">Login</a></p>
+    <p>Déjà un compte ? <a href="{% url 'auth_login' %}">Connexion</a></p>
 </body>
 </html>

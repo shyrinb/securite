@@ -1,0 +1,1 @@
+Django==3.2.9  # Remplacez la version par celle que vous utilisez

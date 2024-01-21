@@ -121,7 +121,7 @@ class LoginForm(forms.Form):
                 return user
             
         print('Échec de l\'authentification.')
-        raise forms.ValidationError('Invalid username or password. Please try again.')
+        return('Invalid username or password. Please try again.')
 
 class UserContactEditForm(forms.ModelForm):
     class Meta:

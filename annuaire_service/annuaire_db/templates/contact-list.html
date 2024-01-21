@@ -6,21 +6,24 @@
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>Contacts</title>
+
+ <link rel="stylesheet" href="{% static 'annuaire_service/css/styles.css' %}">
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
- <link rel="stylesheet" href="{% static 'ContactsApp/css/index.css' %}">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </head>
-{% block content %}
 <ul>
     {% if status_data %}
         <p>Statut : {{ status_data.status }}</p>
     {% endif %}
-    <li><a href="{% url 'user_auth:logout' %}">Deconnexion</a></li>
-    <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
-  
+    <nav>   
+        
+        <li><a href="{% url 'user_auth:logout' %}">Deconnexion</a></li>
+        <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
+      <li><a href="{% url 'annuaire_user:go_to_search' %}">Rechercher contact</a></li>
+    </nav>
 </ul>
 <div class="container">
     <h2>Liste des utilisateurs</h2>
@@ -58,4 +61,3 @@
             </table>
               {%endfor%}
 </div>
-{% endblock %}
