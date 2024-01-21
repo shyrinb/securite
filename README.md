@@ -1,5 +1,18 @@
 # Projet Securite
 
+## Configuration:
+
+ouvrir le dossier dans un IDE.
+
+## Installation des librairies
+
+installer les librairies via la commande suivante: 
+
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Configuration des bases de données
 
 Ce projet utilise trois bases de données distinctes : `general`, `auth_db`, et `annuaire_db`. Pour configurer les bases de données, suivez les étapes ci-dessous :
