@@ -9,7 +9,6 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: lightgrey; /* Fond gris clair */
     color: #000; /* Texte noir */
     margin: 0;
     padding: 0;
@@ -29,6 +28,7 @@ nav ul {
 
 nav ul li {
     margin-right: 20px;
+    background-color: lightblue;
 }
 
 nav a {
