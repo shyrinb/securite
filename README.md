@@ -40,6 +40,8 @@ Ce projet utilise trois bases de données distinctes : `general`, `auth_db`, et 
 Assurez-vous d'appliquer les migrations pour chaque base de données en utilisant les commandes suivantes :
 
 ```bash
+
+python manage.py makemigrations
 python manage.py migrate
 python manage.py migrate --database=auth_db
 python manage.py migrate --database=annuaire_db
