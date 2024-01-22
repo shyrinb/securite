@@ -144,11 +144,12 @@ class UserContactEditForm(forms.ModelForm):
         historique.save(using='auth_db')
         if commit:
                 user.save()
+        contact=Contact.objects.using('annuaire_db').filter(user_id=user.id).first()
         # Update associated Contact
-        contact = user.contact.first()
         contact.first_name = user.first_name
         contact.last_name = user.last_name
         contact.email = user.email
+        contact.user_id=user.id
         contact.phone_number = self.cleaned_data['phone_number']
         contact.save()
 

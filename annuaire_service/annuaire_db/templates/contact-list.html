@@ -29,7 +29,6 @@
 <div class="container">
     <h2>Liste des utilisateurs</h2>
     
-            {% for contact in contacts %}
             <table class="table table-hover table-dark table-striped">
                 <thead>
                     <tr>
@@ -42,6 +41,8 @@
                     </tr>
                 </thead>
                 <tbody>
+
+            {% for contact in contacts %}
                     <tr style="cursor: pointer;">
                         <td>{{ contact.id }} </td>
                         <td>{{ contact.first_name }} {{ contact.last_name }}</td>
@@ -58,8 +59,9 @@
                             {%endif%}
                         </td>
                     </tr>
+
+              {%endfor%}
                 </tbody>
             </table>
-              {%endfor%}
 </div>
 </body>

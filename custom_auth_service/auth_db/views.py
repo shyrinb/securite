@@ -93,7 +93,7 @@ def change_password(request,contact_id):
                 'last_name': contact.last_name,
                 'phone_number': contact.phone_number,
                 'email': contact.email,
-                "id_user":contact.user.id
+                "id_user":contact.user_id
             }
         print(data)
         user = get_object_or_404(User.objects.using("auth_db"), id=data["id_user"])      
@@ -187,7 +187,7 @@ def update_profile(request, contact_id):
                 'last_name': contact.last_name,
                 'phone_number': contact.phone_number,
                 'email': contact.email,
-                "id_user":contact.user.id
+                "id_user":contact.user_id
         }
         print(data)
         user_id = get_object_or_404(User, id=data["id_user"])
