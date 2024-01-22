@@ -48,14 +48,12 @@ class UserRegistrationForm(forms.ModelForm):
 
         if commit:
             user.save(using='auth_db')  # Enregistrez l'utilisateur
+            print(f"User saved with ID: {user.id}")
             print("Utilisateur enregistré")
 
             contact_form = ContactForm(self.cleaned_data)
             print("contact form", contact_form)
             if contact_form.is_valid():
-                contact = contact_form.save(commit=True)
-                if contact:
-                    print("contact", contact)
                     contact = Contact.objects.create(
                         first_name=self.cleaned_data['first_name'],
                         last_name=self.cleaned_data['last_name'],
@@ -81,10 +79,9 @@ class UserRegistrationForm(forms.ModelForm):
                     )
                     print("historique enregistre")
                     historique.save(using='auth_db')
-                else:
-                    print("Erreur de validation dans le modèle Contact:", contact_form.errors)
             else:
-                print("Erreur de validation dans le formulaire Contact:", contact_form.errors)
+                    print("Erreur de validation dans le modèle Contact:", contact_form.errors)
+            
         return user
 
 class LoginForm(forms.Form):

@@ -24,12 +24,19 @@
     </nav>
 </ul>
     <h2>Mon Profil Utilisateur</h2>
-    {% if user_status.status == 1 or request.session.user_id == data.id_user %}
+    {% if data.status == 1 or request.session.user_id == data.id_user %}
     <nav> 
             <a href="{% url 'user_auth:update_profil' data.id %}" class="btn btn-primary btn-sm">Mettre à jour</a>
-            <a href="{% url 'user_auth:desinscrire_confirm' data.id %}" class="btn btn-danger btn-sm">Supprimer</a>
-    </nav>
+            <a href="{% url 'annuaire_user:delete_contact' data.id %}" class="btn btn-danger btn-sm">Supprimer</a> 
+            {% if data.status == 1  %}
+            <a href="{% url 'annuaire_user:go_to_promove' data.id %}" class="btn btn-primary btn-sm">Promouvoir le contact</a>
+            <a href="{% url 'annuaire_user:go_to_retrograde' data.id%}" class="btn btn-primary btn-sm">Rétrograder le contact</a>
+            {%endif%}
+   
+        </nav>
     {%endif%}
+
+   
     <table class="table table-hover table-dark table-striped">
         <thead>
             <tr>

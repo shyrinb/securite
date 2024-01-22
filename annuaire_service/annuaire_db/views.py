@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from custom_auth_service.auth_db.forms import AddContactForm
@@ -48,39 +49,74 @@ def home(request):
         # Gérez le cas où l'utilisateur n'est pas connecté
         return redirect('auth_login')
    
-def retrograde_contact(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+def go_to_retrograde(request,contact_id):
+    contact = get_object_or_404(Contact, id=contact_id)
+    user=User.objects.using('auth_db').filter(contact_relation=contact.id).first()
+    data={
+        'last_name':contact.last_name,
+        'first_name':contact.first_name,
+        'contact_id':contact.id,
+        'user_id':user.id
+    }
+    return render(request, 'retrograde.html',{'result':data})
+    
+def retrograde_contact(request, contact_id):
+    if 'access_token' in request.session:
+        user_id = request.session.get('user_id')
+        user_admin =User.objects.using('auth_db').get(id=user_id)
+        contact = get_object_or_404(Contact, id=contact_id)
+        user=User.objects.using('auth_db').filter(contact_relation=contact.id).first()
+        print("User ID:{user.id} ")
 
-    if request.user.status == User.Status.superadmin:
-        # Vous pouvez personnaliser cette condition en fonction de vos besoins
-        if user.status == User.Status.admin:
-            user.status = User.Status.utilisateur
-            user.save()
-            messages.success(request, f'User {user.username} retrograded to Utilisateur.')
+        if user_admin.status == 2 or user_admin.status == 1:
+            print("la personne est un admin")
+                # Vous pouvez personnaliser cette condition en fonction de vos besoins
+            if user.status == 1: # RETROGRADE ADMIN VERS UTILISATEUR
+                if request.method == 'POST':
+                    print("l'utilisateur est un admin ")
+                    user.status = 0
+                    user.save()
+                    messages.success(request, f'User {user.username} promoted to Admin.')
+                else:
+                    messages.warning(request, 'You can only promote Utilisateur users.')
+                    return redirect(reverse('annuaire_user:home'))    
         else:
-            messages.warning(request, 'You can only retrograde Admin users.')
+            messages.warning(request, 'You are not authorized to perform this action.')
+            return HttpResponseForbidden()
+    
+def go_to_promove(request,contact_id):
+    contact = get_object_or_404(Contact, id=contact_id)
+    user=User.objects.using('auth_db').filter(contact_relation=contact.id).first()
+    data={
+        'last_name':contact.last_name,
+        'first_name':contact.first_name,
+        'contact_id':contact.id,
+        'user_id':user.id
+    }
+    return render(request, 'promouvoir.html',{'result':data})
+    
+def promove_contact(request, contact_id):
+    if 'access_token' in request.session:
+        user_id = request.session.get('user_id')
+        user_admin =User.objects.using('auth_db').get(id=user_id)
+        contact = get_object_or_404(Contact, id=contact_id)
+        user=User.objects.using('auth_db').filter(contact_relation=contact.id).first()
+        print("User ID:{user.id} ")
 
-        return redirect('home')
-    else:
-        messages.warning(request, 'You are not authorized to perform this action.')
-        return HttpResponseForbidden()
+        if request.method == 'POST':
+            if user_admin.status == 2 or user_admin.status == 1:
+                # Vous pouvez personnaliser cette condition en fonction de vos besoins
+                if user.status == 0: # PROMOTION UTILISATEUR EN ADMIN
+                    user.status = 1
+                    user.save()
+                    messages.success(request, f'User {user.username} promoted to Admin.')
+                else:
+                    messages.warning(request, 'You can only promote Utilisateur users.')
 
-def promove_contact(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-
-    if request.user.status == User.Status.superadmin:
-        # Vous pouvez personnaliser cette condition en fonction de vos besoins
-        if user.status == User.Status.utilisateur:
-            user.status = User.Status.admin
-            user.save()
-            messages.success(request, f'User {user.username} promoted to Admin.')
-        else:
-            messages.warning(request, 'You can only promote Utilisateur users.')
-
-        return redirect('home')
-    else:
-        messages.warning(request, 'You are not authorized to perform this action.')
-        return HttpResponseForbidden()
+                return redirect(reverse('annuaire_user:home'))
+            else:
+                messages.warning(request, 'You are not authorized to perform this action.')
+                return HttpResponseForbidden()
 
 def contact(request):
     contacts = Contact.objects.all()

@@ -54,8 +54,8 @@
                             {% if user_status.status == 1 %}
                              <a href="{% url 'annuaire_user:update_contact' contact.id %}" class="btn btn-primary btn-sm">Mettre à jour</a>
                             <a href="{% url 'annuaire_user:delete_contact' contact.id %}" class="btn btn-danger btn-sm">Supprimer</a> 
-                            <a href="{% url 'annuaire_user:promove_contact' contact.id%}">Promouvoir le contact</a>
-                            <a href="{% url 'annuaire_user:retrograde_contact' contact.id%}">Rétrograder le contact</a>
+                            <a href="{% url 'annuaire_user:go_to_promove' contact.id %}" class="btn btn-primary btn-sm">Promouvoir le contact</a>
+                            <a href="{% url 'annuaire_user:go_to_retrograde' contact.id%}" class="btn btn-primary btn-sm">Rétrograder le contact</a>
                             {%endif%}
                         </td>
                     </tr>

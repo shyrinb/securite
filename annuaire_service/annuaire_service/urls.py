@@ -25,7 +25,11 @@ urlpatterns = [
     # Ajout contact 
     path('add-contact', views.add_contact, name='add_contact'),
     # Proumouvoir utilisateur
+
+    path('go-promove/<int:contact_id>/', views.go_to_promove, name='go_to_promove'),
     path('promove-contact/<int:contact_id>/',views.promove_contact,name='promove_contact'),
+
+    path('go-retrograde/<int:contact_id>/', views.go_to_retrograde, name='go_to_retrograde'),
     path('update-contact/<int:contact_id>/', views.update_contact, name='update_contact'),
     # Retrograder utilisateur   
     path('retrograde-contact/<int:contact_id>/', views.retrograde_contact, name='retrograde_contact'),  

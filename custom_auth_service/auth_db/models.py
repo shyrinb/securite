@@ -17,7 +17,7 @@ class User(AbstractUser):
     
     groups = models.ManyToManyField(CustomGroup, blank=True, related_name='user_groups')
     user_permissions = models.ManyToManyField(CustomPermission, blank=True, related_name='user_permissions')
-    contact_relation = models.ForeignKey('annuaire_db.Contact', on_delete=models.CASCADE, related_name='contact_account', null=True, blank=True)
+    contact_relation = models.ForeignKey('annuaire_db.Contact', on_delete=models.SET_NULL, related_name='contact_account', null=True, blank=True)
     status = models.IntegerField(
         choices = Status.choices, 
         default = Status.utilisateur,

@@ -17,13 +17,15 @@
 <body>
 <ul>
     <nav>   
-      <li><a href="{% url 'user_auth:logout' %}">Deconnexion</a></li>
-      <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
-    <li><a href="{% url 'annuaire_user:go_to_search' %}">Rechercher contact</a></li>
-  </nav>
+
+          <li><a href="{% url 'user_auth:logout' %}">Deconnexion</a></li>
+          <li><a href="{% url 'annuaire_user:home' %}">Accueil</a></li>
+        <li><a href="{% url 'annuaire_user:go_to_search' %}">Rechercher contact</a></li>
+
+      </nav>
 </ul>
-    <h1>Rétrograder l'utilisateur</h1>
-    
+
+    <h1>Retrograde l'utilisateur</h1>
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -32,13 +34,11 @@
         </ul>
     {% endif %}
 
-    <p>Êtes-vous sûr de vouloir rétrograder cet utilisateur en Utilisateur?</p>
-    <form method="post" action="{% url 'retrograde_user' user.id %}">
+    <p>Êtes-vous sûr de vouloir retrograde {{result.last_name}} {{result.first_name}} en Admin?</p>
+    <form method="post" action="{% url 'annuaire_user:retrograde_contact' result.contact_id %}">
         {% csrf_token %}
-        <button type="submit">Rétrograder</button>
-        <a href="{% url 'home' %}">Annuler</a>
+        <button type="submit">Retrograde</button>
+        <button href="{% url 'annuaire_user:home' %}" class="btn btn-primary btn-sm">Annuler</button>
     </form>
 </body>
 </html>
-
-
